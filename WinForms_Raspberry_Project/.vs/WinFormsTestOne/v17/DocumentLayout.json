@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\ms visual studio programs\\winforms_raspberry_project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\ms visual studio programs\\winforms_raspberry_project\\winformstestone.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:winformstestone.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\ms visual studio programs\\winforms_raspberry_project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAcwC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-11T08:00:14.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\Form1.cs [Design]",
+              "RelativeToolTip": "Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-11T07:51:49.731Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WinFormsTestOne",
+              "DocumentMoniker": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\WinFormsTestOne.csproj",
+              "RelativeDocumentMoniker": "WinFormsTestOne.csproj",
+              "ToolTip": "C:\\MS Visual Studio Programs\\WinForms_Raspberry_Project\\WinFormsTestOne.csproj",
+              "RelativeToolTip": "WinFormsTestOne.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-11T07:51:36.131Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

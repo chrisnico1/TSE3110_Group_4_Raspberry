@@ -1,0 +1,46 @@
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll.config
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.deps.json
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.runtimeconfig.json
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.runtimeconfig.dev.json
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.pdb
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\Microsoft.Win32.Registry.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Configuration.ConfigurationManager.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Data.SqlClient.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Device.Gpio.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.AccessControl.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.Cryptography.ProtectedData.dll
+C:\projects\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.Principal.Windows.dll
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.csproj.AssemblyReference.cache
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.AssemblyInfoInputs.cache
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.AssemblyInfo.cs
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.csproj.CoreCompileInputs.cache
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\Raspberr.501F8374.Up2Date
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.pdb
+C:\projects\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.genruntimeconfig.cache
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll.config
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.deps.json
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.runtimeconfig.json
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.runtimeconfig.dev.json
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.pdb
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\Microsoft.Win32.Registry.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Configuration.ConfigurationManager.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Data.SqlClient.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Device.Gpio.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.AccessControl.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.Cryptography.ProtectedData.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\bin\Release\netcoreapp3.1\linux-arm\System.Security.Principal.Windows.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.csproj.AssemblyReference.cache
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.GeneratedMSBuildEditorConfig.editorconfig
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.AssemblyInfoInputs.cache
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.AssemblyInfo.cs
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.csproj.CoreCompileInputs.cache
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\Raspberr.501F8374.Up2Date
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.dll
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.pdb
+C:\MS Visual Studio Programs\RaspBerryPI_Project\RaspberryStrobe\obj\Release\netcoreapp3.1\linux-arm\RaspberryStrobe.genruntimeconfig.cache
