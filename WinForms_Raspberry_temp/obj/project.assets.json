@@ -476,11 +476,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\WinFormsTestOne.csproj",
+      "projectUniqueName": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\WinFormsTestOne.csproj",
       "projectName": "WinFormsTestOne",
-      "projectPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\WinFormsTestOne.csproj",
+      "projectPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\WinFormsTestOne.csproj",
       "packagesPath": "C:\\Users\\Nicol\\.nuget\\packages\\",
-      "outputPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\obj\\",
+      "outputPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

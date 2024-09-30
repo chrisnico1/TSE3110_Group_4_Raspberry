@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "18XWiqnJv6E=",
+  "dgSpecHash": "XiCb5Iy9ql8=",
   "success": true,
-  "projectFilePath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\WinFormsTestOne.csproj",
+  "projectFilePath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\WinFormsTestOne.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nicol\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Nicol\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

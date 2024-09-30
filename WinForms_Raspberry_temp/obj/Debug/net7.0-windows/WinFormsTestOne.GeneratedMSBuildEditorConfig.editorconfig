@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WinFormsTestOne
-build_property.ProjectDir = C:\TSE3110_Group_4_Raspberry\WinForms_Raspberry_Project\
+build_property.ProjectDir = C:\TSE3110_Group_4_Raspberry\WinForms_Raspberry_temp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
