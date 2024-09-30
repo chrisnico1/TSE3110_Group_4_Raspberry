@@ -11,6 +11,43 @@ namespace WinFormsTestOne
             InitializeComponent();
         }
 
+
+        ///Functions from GUI///
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        //Acknowledge alarms in alarm table and show new alarm table in dgvAlarms. [NOT COMPLETE]
+        private void btnAcknowledge_Click(object sender, EventArgs e)
+        {
+            string sqlQuery = $"SELECT * FROM BUTTON";
+            ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
+        }
+
+
+        //Clear alarms in alarm table and show new alarm table in the dgvAlarms. [NOT COMPLETE]
+        private void btnClearAlarm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        //Toggle the green lamp on/off. [NOT COMPLETE]
+        private void rdoGreenLight_CheckedChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+
+        ///Self-made methods///
+
+
+        //View a query in the datagridview.
         public void ViewQueryResultInDataGridView(string conString, string sqlQuery, DataGridView dgvTemporary)
         {
             try
@@ -31,18 +68,7 @@ namespace WinFormsTestOne
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string sqlQuery = $"SELECT * FROM BUTTON";
-            ViewQueryResultInDataGridView(conn, sqlQuery, dataGridView1);
-        }
-
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void btnDiode_Click(object sender, EventArgs e)
         {
 
         }
