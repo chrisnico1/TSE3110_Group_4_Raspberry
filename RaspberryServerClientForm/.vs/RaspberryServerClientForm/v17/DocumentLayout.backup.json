@@ -1,14 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\",
+  "WorkspaceRootPath": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|c:\\users\\antho\\onedrive\\skrivebord\\c#projects\\raspberryserverclientform\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|c:\\tse3110_group_4_raspberry\\raspberryserverclientform\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|c:\\tse3110_group_4_raspberry\\raspberryserverclientform\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|c:\\tse3110_group_4_raspberry\\raspberryserverclientform\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{3B7824A8-6BB8-4C5A-9AC2-63148A7D83BA}|RaspberryServerClientForm.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,15 +22,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\App.config",
+              "RelativeDocumentMoniker": "App.config",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\App.config",
+              "RelativeToolTip": "App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-09-30T12:44:32.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\Form1.cs",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\Form1.cs [Design]",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\Form1.cs [Design]",
               "RelativeToolTip": "Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-06T02:44:39.547Z",
@@ -34,16 +54,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\Form1.cs",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServerClientForm\\Form1.cs",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServerClientForm\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAWwF8AAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAALgAAAAAAAAAAAAQwLMAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T02:45:45.895Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T02:45:45.895Z"
             }
           ]
         }

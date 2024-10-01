@@ -1,14 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\",
+  "WorkspaceRootPath": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\tse3110_group_4_raspberry\\winforms_raspberry_project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\tse3110_group_4_raspberry\\winforms_raspberry_temp\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\tse3110_group_4_raspberry\\winforms_raspberry_project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|c:\\tse3110_group_4_raspberry\\winforms_raspberry_temp\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8475F48B-95DB-4F72-96D3-04A2414B59C1}|WinFormsTestOne.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,36 +18,38 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\Form1.cs",
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\Form1.cs [Design]",
-              "RelativeToolTip": "Form1.cs [Design]",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-11T07:51:49.731Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-09-30T10:02:08.317Z",
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\Form1.cs",
-              "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_Project\\Form1.cs",
-              "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAIwEgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T10:02:08.317Z",
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\App.config",
+              "RelativeDocumentMoniker": "App.config",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\WinForms_Raspberry_temp\\App.config",
+              "RelativeToolTip": "App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-09-30T12:46:03.457Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             }
           ]
         }
