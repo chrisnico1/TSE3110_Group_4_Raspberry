@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
@@ -11,7 +13,14 @@ namespace RaspberryServertest
     {
         static SerialPort _serialPort;
         static string temperature = "0";
-        static string buttonStatus = "-1";
+        static string lightStatus = "0";
+        static string alarmLightStatus = "0";
+        static string buttonStatus = "0";
+        static int readInterval = 400;
+
+        static bool buttonAlarmActive = false;
+        static bool temperatureAlarmActive = false;
+        static double temperatureLimit = 20;
         public static int Main(string[] args)
         {
             Console.WriteLine("Server: Hello!");
@@ -55,17 +64,29 @@ namespace RaspberryServertest
             IPAddress ipAddress = IPAddress.Parse("192.168.247.55");
             IPEndPoint localEndPoint;
             
-            Console.WriteLine("Try host on eth0 or wlan0?");
+            Console.WriteLine("Try host on eth0 or wlan0? or custom IP (ip)?");
             string hostChoice = Console.ReadLine();
             if (hostChoice == "eth0")
             {
-                Console.WriteLine("Trying host ip 192.168.247.55 (should be eth0)");
-                ipAddress = IPAddress.Parse("192.168.247.55");
+                Console.WriteLine("Trying host ip 192.168.97.55 (should be eth0)");
+                ipAddress = IPAddress.Parse("192.168.97.55");
             }
             else if (hostChoice == "wlan0")
             {
                 Console.WriteLine("Trying host ip 192.168.11.3 (should be wlan0)");
                 ipAddress = IPAddress.Parse("192.168.11.3");
+            }
+            else if (hostChoice == "ip")
+            {
+                string ipCustom = Console.ReadLine();
+                try
+                {
+                    ipAddress = IPAddress.Parse(ipCustom);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("IP rejected, written wrong");
+                }
             }
             else { Console.WriteLine("You dyslexic fuck...."); }
 
@@ -128,10 +149,20 @@ namespace RaspberryServertest
                 //Console.WriteLine("Understood, get temperature status");
                 response = Encoding.ASCII.GetBytes(temperature);
             }
+            else if (data == "GET LIGHT<EOF>")
+            {
+                //Console.WriteLine("Understood, get temperature status");
+                response = Encoding.ASCII.GetBytes(lightStatus);
+            }
+            else if (data == "GET ALARMLIGHT<EOF>")
+            {
+                //Console.WriteLine("Understood, get temperature status");
+                response = Encoding.ASCII.GetBytes(alarmLightStatus);
+            }
             else if (data == "TOGGLE DIODE<EOF>")
             {
                 //Console.WriteLine("Understood, toggle diode");
-                _serialPort.Write("1");
+                _serialPort.Write("L");
                 response = Encoding.ASCII.GetBytes("diode toggled");
             }
             else
@@ -147,18 +178,48 @@ namespace RaspberryServertest
         {
             ClearSerialBuffer();
             int i = 0;
+            int buttonPressedForIntervals = 0;
             while (true)
             {
                 try
                 {
                     string message = _serialPort.ReadLine();
-                    //Console.WriteLine(message);
+                    Console.WriteLine(message);
                     string[] serialData = message.Split(';');
                     if (serialData.Length > 1)
                     {
                         temperature = serialData[0];
-                        buttonStatus = serialData[1];
+                        lightStatus = serialData[1];
+                        alarmLightStatus = serialData[2];
+                        buttonStatus = serialData[3];
                     }
+
+                    //Alarm if button pressed too long
+                    if (Convert.ToUInt32(buttonStatus) == 1)
+                    {
+                        buttonPressedForIntervals++;
+                    }
+                    else if (Convert.ToUInt32(buttonStatus) == 0)
+                    {
+                        buttonPressedForIntervals = 0;
+                        buttonAlarmActive = false;
+                    }
+                    if ((buttonPressedForIntervals > (1000/readInterval)*10) && !buttonAlarmActive)
+                    {
+                        Console.WriteLine("DOOR HELD OPEN FOR MORE THAN 10 SEC");
+                        PostAlarmToSQL("BUTTON");
+                        buttonAlarmActive = true;
+                    }
+
+                    //Alarm if temperature too high
+                    if ((Convert.ToDouble(temperature) > temperatureLimit) && !temperatureAlarmActive)
+                    {
+                        Console.WriteLine("TEMPERATURE ABOVE 20");
+                        PostAlarmToSQL("TMP");
+                        temperatureAlarmActive = true;
+                    }
+
+                    //Clear serial buffer when too many lines accumulated (when raspberry reads slower than arduino)
                     if (i > 50)
                     {
                         ClearSerialBuffer();
@@ -171,7 +232,7 @@ namespace RaspberryServertest
                 {
                     //Console.WriteLine("Timeout..");
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(readInterval);
             }
         }
 
@@ -203,6 +264,44 @@ namespace RaspberryServertest
                     Console.WriteLine("Diode toggled");
                     _serialPort.Write("1");
                 }
+            }
+        }
+
+        static void PostAlarmToSQL(string alarmType)
+        {
+            //string sqlQuery = $@"
+            //    UPDATE BUTTON
+            //    SET ButtonStatus = {status}
+            //    WHERE ButtonID = {buttonId}";
+            string sqlQuery = $@"INSERT INTO ALARM VALUES ('NA','NA','2069-09-30','Yo mama')";
+            if (alarmType == "TMP")
+            {
+                sqlQuery = $@"INSERT INTO ALARM VALUES (2,'HOT','2024-09-30','Temperature above limit')";
+            }
+            else if (alarmType == "BUTTON")
+            {
+                sqlQuery = $@"INSERT INTO ALARM VALUES (5,'OPEN','2024-09-30','Door held open too long')";
+            }
+            
+            //CRUD operasjon Insert, brukes av btnInsert og btnGenerateWaterLevels
+            try
+            {
+                string conn = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
+                SqlConnection conFood = new SqlConnection(conn);
+                SqlCommand sql = new SqlCommand(sqlQuery, conFood);
+                conFood.Open();
+                SqlDataReader dataReader = sql.ExecuteReader();
+                string retrievedTableValue;
+                while (dataReader.Read() == true)
+                {
+                    //retrievedTableValue = dataReader[0].ToString();
+                }
+                conFood.Close();
+                Console.WriteLine("Alarm posted");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }

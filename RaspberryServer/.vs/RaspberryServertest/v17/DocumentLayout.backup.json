@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServertest\\",
+  "WorkspaceRootPath": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D8D23EF3-8FF9-4ACD-BC63-721B41973ADD}|RaspberryServertest.csproj|c:\\users\\antho\\onedrive\\skrivebord\\c#projects\\raspberryservertest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D8D23EF3-8FF9-4ACD-BC63-721B41973ADD}|RaspberryServertest.csproj|c:\\tse3110_group_4_raspberry\\raspberryserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8D23EF3-8FF9-4ACD-BC63-721B41973ADD}|RaspberryServertest.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServertest\\Program.cs",
+              "DocumentMoniker": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServer\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\antho\\OneDrive\\Skrivebord\\C#Projects\\RaspberryServertest\\Program.cs",
+              "ToolTip": "C:\\TSE3110_Group_4_Raspberry\\RaspberryServer\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAYwH0AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAPcAAAAAAAAAAAA9wBkBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-06T01:36:08.571Z",
               "EditorCaption": ""
