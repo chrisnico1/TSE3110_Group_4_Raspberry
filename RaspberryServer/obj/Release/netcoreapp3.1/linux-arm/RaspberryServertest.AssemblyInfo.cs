@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RaspberryServertest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9dd4037b9a486085c6195b86b0eb0114f126e627")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f199e4c85bc3ac6ab4caaa4113b98c2d53976ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("RaspberryServertest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RaspberryServertest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
