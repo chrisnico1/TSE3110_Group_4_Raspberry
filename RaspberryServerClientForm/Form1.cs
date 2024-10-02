@@ -19,7 +19,7 @@ using System.Collections;
 namespace RaspberryServerClientForm
 {
     /// <summary>
-    /// Timestamp på alarmlisten er på UTC stid.
+    /// Timestamp from the database is using UTC time.
     /// </summary>
 
 
@@ -50,7 +50,9 @@ namespace RaspberryServerClientForm
         //Clear all alarms in alarm table. [COMPLETE]
         private void btnClearAllAlarms_Click(object sender, EventArgs e)
         {
+            // Creating the query
             string sqlQuery = "DELETE FROM ALARM;";
+
             using (SqlConnection connection = new SqlConnection(conn))
             {
                 SqlCommand command = new SqlCommand(sqlQuery, connection);
@@ -64,30 +66,70 @@ namespace RaspberryServerClientForm
                 // Close the connection
                 connection.Close();
             }
-            TurnOffRedDiode();
         }
 
-        //Toggle light on green diode. [NOT COMPLETE]
+        //Toggle light on green diode. [MAYBE COMPLETE]
         private void btnGreenDiode_Click(object sender, EventArgs e)
         {
             byte[] request = Encoding.ASCII.GetBytes("TOGGLE DIODE<EOF>");
             string response = StartClient(request);
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
             string greenStatus = GetDiodeStatus();
             txtTemp.Text = greenStatus;
         }
 
-        // Method to turn off the red alarm diode. [NOT COMPLETE]
+        // Method to turn off the red alarm diode. [COMPLETE]
         public void TurnOffRedDiode()
         {
             byte[] request = Encoding.ASCII.GetBytes("ALARM OFF<EOF>");
             string response = StartClient(request);
         }
 
-        // Method to check if there are any values in the ALARM table. [NOT COMPLETE]
+        // Method to turn on the red alarm diode. [COMPLETE]
+        public void TurnOnRedDiode()
+        {
+            byte[] request = Encoding.ASCII.GetBytes("ALARM ON<EOF>");
+            string response = StartClient(request);
+        }
+
+        // Method to check if there are any values in the ALARM table. [COMPLETE]
         private void CheckIfAnyValueInTable()
         {
+            try
+            {
+                string sqlQuery = $@"SELECT * FROM ALARM";
+                SqlConnection connection = new SqlConnection(conn);
+                SqlCommand sql = new SqlCommand(sqlQuery, connection);
 
+                // Open the connection
+                connection.Open();
+
+                // Executing the reader function
+                SqlDataReader dataReader = sql.ExecuteReader();
+
+                string retrievedTableValue = "";
+                while (dataReader.Read() == true)
+                {
+                    retrievedTableValue = dataReader[0].ToString();
+                }
+
+                // Close the connection
+                connection.Close();
+
+
+                if (retrievedTableValue.Length > 0)
+                {
+                    TurnOnRedDiode();
+                }
+                else
+                {
+                    TurnOffRedDiode();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
@@ -227,9 +269,12 @@ namespace RaspberryServerClientForm
             txtCurrentTemperature.Text = temperature;
             GetDoorStatus();
 
+            // Show all alarms in ALARM table inside dgvAlarm. [COMPLETE]
             string sqlQuery = @"SELECT* FROM ALARM ORDER BY AlarmId ASC;";
             ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
 
+            // Check to turn on/off the red diode. [NOT TESTED]
+            CheckIfAnyValueInTable();
         }
 
 
@@ -276,5 +321,6 @@ namespace RaspberryServerClientForm
                 e.Handled = true; // Prevents the 'ding' sound
             }
         }
+
     }
 }
