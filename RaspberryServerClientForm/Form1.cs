@@ -13,10 +13,14 @@ using System.Threading;
 using System.Configuration;
 using System.Data.SqlClient;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections;
 
 namespace RaspberryServerClientForm
 {
-
+    /// <summary>
+    /// Timestamp på alarmlisten er på UTC stid.
+    /// </summary>
 
 
     public partial class Form1 : Form
@@ -28,6 +32,13 @@ namespace RaspberryServerClientForm
         public Form1()
         {
             InitializeComponent();
+
+            // Event subscription to make the timer start when new IP is entered.
+            txtIP.KeyPress += new KeyPressEventHandler(txtIP_KeyPress);
+            tmrSampleTime.Tick += new EventHandler(tmrSampleTime_Tick);
+
+            // ULTRA MIDLERTIDIG KODE
+            txtTemp.Clear();
         }
 
 
@@ -36,17 +47,24 @@ namespace RaspberryServerClientForm
 
 
 
-        //Acknowledge alarms in alarm table and show new alarm table in dgvAlarms. [NOT COMPLETE]
-        private void btnAcknowledge_Click(object sender, EventArgs e)
+        //Clear all alarms in alarm table. [COMPLETE]
+        private void btnClearAllAlarms_Click(object sender, EventArgs e)
         {
-            string sqlQuery = $"SELECT * FROM BUTTON";
-            ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
-        }
+            string sqlQuery = "DELETE FROM ALARM;";
+            using (SqlConnection connection = new SqlConnection(conn))
+            {
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
 
-        //Clear alarms in alarm table and show new alarm table in the dgvAlarms. [NOT COMPLETE]
-        private void btnClearAlarm_Click(object sender, EventArgs e)
-        {
+                // Open the connection
+                connection.Open();
 
+                // Execute the query
+                command.ExecuteNonQuery();
+
+                // Close the connection
+                connection.Close();
+            }
+            TurnOffRedDiode();
         }
 
         //Toggle light on green diode. [NOT COMPLETE]
@@ -54,13 +72,23 @@ namespace RaspberryServerClientForm
         {
             byte[] request = Encoding.ASCII.GetBytes("TOGGLE DIODE<EOF>");
             string response = StartClient(request);
-            //txtMsg.Text = response;
             Thread.Sleep(500);
             string greenStatus = GetDiodeStatus();
             txtTemp.Text = greenStatus;
-
         }
 
+        // Method to turn off the red alarm diode. [NOT COMPLETE]
+        public void TurnOffRedDiode()
+        {
+            byte[] request = Encoding.ASCII.GetBytes("ALARM OFF<EOF>");
+            string response = StartClient(request);
+        }
+
+        // Method to check if there are any values in the ALARM table. [NOT COMPLETE]
+        private void CheckIfAnyValueInTable()
+        {
+
+        }
 
 
         ///Self-made methods///
@@ -108,10 +136,6 @@ namespace RaspberryServerClientForm
                 {
                     // Connect to Remote EndPoint
                     sender.Connect(remoteEP);
-                    //Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
-
-                    // Encode the data string into a byte array.
-                    byte[] msg = Encoding.ASCII.GetBytes("I need temperatue value<EOF>");
 
                     // Send the data through the socket.
                     int bytesSent = sender.Send(request);
@@ -119,6 +143,9 @@ namespace RaspberryServerClientForm
                     // Receive the response from the remote device.
                     int bytesRec = sender.Receive(bytes);
                     serverMsg = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+
+                    // MIDLERTIDIG KODE:
+                    txtTemp.AppendText(serverMsg + "\r\n");
 
                     // Release the socket.
                     sender.Shutdown(SocketShutdown.Both);
@@ -199,6 +226,10 @@ namespace RaspberryServerClientForm
             string temperature = ShowCurrentTemperature();
             txtCurrentTemperature.Text = temperature;
             GetDoorStatus();
+
+            string sqlQuery = @"SELECT* FROM ALARM ORDER BY AlarmId ASC;";
+            ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
+
         }
 
 
@@ -208,16 +239,14 @@ namespace RaspberryServerClientForm
         //NOT TESTED
         private void btnTemp_Click(object sender, EventArgs e)
         {
-            InsertRow("ALARM", "2", "1", DateTime.Now, "message");
-            string sqlQuery = @"SELECT* FROM ALARM ORDER BY AlarmId ASC;";
-            ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
+            InsertRow("ALARM", "2", "1", "message");
         }
 
         // Method to insert four values into a table, where the third value is DateTime (DateTime.Now from C#)
-        public void InsertRow(string tableName, object value1, object value2, DateTime value3, object value4)
+        public void InsertRow(string tableName, object value1, object value2, object value3)
         {
             // SQL query with parameters
-            string query = $"INSERT INTO {tableName} VALUES (@Value1, @Value2, @Value3, @Value4)";
+            string query = $"INSERT INTO {tableName} (AlarmCat, AlarmCode, AlarmMessage) VALUES (@Value1, @Value2, @Value3)";
 
             // Using block to ensure proper disposal of resources
             using (SqlConnection connection = new SqlConnection(conn))
@@ -228,8 +257,7 @@ namespace RaspberryServerClientForm
                 // Add parameters to the command
                 command.Parameters.AddWithValue("@Value1", value1);
                 command.Parameters.AddWithValue("@Value2", value2);
-                command.Parameters.AddWithValue("@Value3", value3);  // Passing DateTime.Now here
-                command.Parameters.AddWithValue("@Value4", value4);
+                command.Parameters.AddWithValue("@Value3", value3);
 
                 // Open the connection
                 connection.Open();
@@ -239,5 +267,14 @@ namespace RaspberryServerClientForm
             }
         }
 
+        // Enables the timer when the 'ENTER' key is pressed inside the txtIP. [COMPLETE]
+        private void txtIP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                tmrSampleTime.Start();
+                e.Handled = true; // Prevents the 'ding' sound
+            }
+        }
     }
 }

@@ -35,10 +35,9 @@
             lblDoorStatus = new System.Windows.Forms.Label();
             txtDoorClosed = new System.Windows.Forms.TextBox();
             txtDoorOpen = new System.Windows.Forms.TextBox();
-            btnClearAlarm = new System.Windows.Forms.Button();
+            btnClearAllAlarms = new System.Windows.Forms.Button();
             label3 = new System.Windows.Forms.Label();
             dgvAlarm = new System.Windows.Forms.DataGridView();
-            btnAcknowledge = new System.Windows.Forms.Button();
             txtCurrentTemperature = new System.Windows.Forms.TextBox();
             lblGreenDiode = new System.Windows.Forms.Label();
             lblCurrentTemperature = new System.Windows.Forms.Label();
@@ -50,17 +49,18 @@
             // 
             // txtIP
             // 
-            txtIP.Location = new System.Drawing.Point(17, 243);
+            txtIP.Location = new System.Drawing.Point(12, 247);
             txtIP.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             txtIP.Name = "txtIP";
             txtIP.Size = new System.Drawing.Size(104, 23);
             txtIP.TabIndex = 4;
             txtIP.Text = "192.168.97.55";
+            txtIP.KeyPress += txtIP_KeyPress;
             // 
             // lblServerIP
             // 
             lblServerIP.AutoSize = true;
-            lblServerIP.Location = new System.Drawing.Point(17, 227);
+            lblServerIP.Location = new System.Drawing.Point(11, 231);
             lblServerIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             lblServerIP.Name = "lblServerIP";
             lblServerIP.Size = new System.Drawing.Size(52, 15);
@@ -71,7 +71,7 @@
             // 
             btnGreenDiode.BackColor = System.Drawing.Color.White;
             btnGreenDiode.Font = new System.Drawing.Font("Segoe UI", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            btnGreenDiode.Location = new System.Drawing.Point(17, 306);
+            btnGreenDiode.Location = new System.Drawing.Point(12, 306);
             btnGreenDiode.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             btnGreenDiode.Name = "btnGreenDiode";
             btnGreenDiode.Size = new System.Drawing.Size(110, 91);
@@ -107,15 +107,15 @@
             txtDoorOpen.Size = new System.Drawing.Size(26, 144);
             txtDoorOpen.TabIndex = 18;
             // 
-            // btnClearAlarm
+            // btnClearAllAlarms
             // 
-            btnClearAlarm.Location = new System.Drawing.Point(127, 181);
-            btnClearAlarm.Name = "btnClearAlarm";
-            btnClearAlarm.Size = new System.Drawing.Size(116, 23);
-            btnClearAlarm.TabIndex = 16;
-            btnClearAlarm.Text = "Clear Alarm";
-            btnClearAlarm.UseVisualStyleBackColor = true;
-            btnClearAlarm.Click += btnClearAlarm_Click;
+            btnClearAllAlarms.Location = new System.Drawing.Point(12, 181);
+            btnClearAllAlarms.Name = "btnClearAllAlarms";
+            btnClearAllAlarms.Size = new System.Drawing.Size(116, 23);
+            btnClearAllAlarms.TabIndex = 16;
+            btnClearAllAlarms.Text = "Clear All Alarms";
+            btnClearAllAlarms.UseVisualStyleBackColor = true;
+            btnClearAllAlarms.Click += btnClearAllAlarms_Click;
             // 
             // label3
             // 
@@ -137,19 +137,9 @@
             dgvAlarm.Size = new System.Drawing.Size(698, 150);
             dgvAlarm.TabIndex = 13;
             // 
-            // btnAcknowledge
-            // 
-            btnAcknowledge.Location = new System.Drawing.Point(12, 181);
-            btnAcknowledge.Name = "btnAcknowledge";
-            btnAcknowledge.Size = new System.Drawing.Size(109, 23);
-            btnAcknowledge.TabIndex = 12;
-            btnAcknowledge.Text = "Acknowledge";
-            btnAcknowledge.UseVisualStyleBackColor = true;
-            btnAcknowledge.Click += btnAcknowledge_Click;
-            // 
             // txtCurrentTemperature
             // 
-            txtCurrentTemperature.Location = new System.Drawing.Point(127, 243);
+            txtCurrentTemperature.Location = new System.Drawing.Point(121, 247);
             txtCurrentTemperature.Name = "txtCurrentTemperature";
             txtCurrentTemperature.Size = new System.Drawing.Size(116, 23);
             txtCurrentTemperature.TabIndex = 21;
@@ -157,7 +147,7 @@
             // lblGreenDiode
             // 
             lblGreenDiode.AutoSize = true;
-            lblGreenDiode.Location = new System.Drawing.Point(17, 290);
+            lblGreenDiode.Location = new System.Drawing.Point(12, 290);
             lblGreenDiode.Name = "lblGreenDiode";
             lblGreenDiode.Size = new System.Drawing.Size(110, 15);
             lblGreenDiode.TabIndex = 22;
@@ -166,7 +156,7 @@
             // lblCurrentTemperature
             // 
             lblCurrentTemperature.AutoSize = true;
-            lblCurrentTemperature.Location = new System.Drawing.Point(127, 225);
+            lblCurrentTemperature.Location = new System.Drawing.Point(121, 229);
             lblCurrentTemperature.Name = "lblCurrentTemperature";
             lblCurrentTemperature.Size = new System.Drawing.Size(116, 15);
             lblCurrentTemperature.TabIndex = 23;
@@ -174,8 +164,7 @@
             // 
             // tmrSampleTime
             // 
-            tmrSampleTime.Enabled = true;
-            tmrSampleTime.Interval = 1000;
+            tmrSampleTime.Interval = 3000;
             tmrSampleTime.Tick += tmrSampleTime_Tick;
             // 
             // btnTemp
@@ -190,9 +179,10 @@
             // 
             // txtTemp
             // 
-            txtTemp.Location = new System.Drawing.Point(200, 345);
+            txtTemp.Location = new System.Drawing.Point(191, 306);
+            txtTemp.Multiline = true;
             txtTemp.Name = "txtTemp";
-            txtTemp.Size = new System.Drawing.Size(100, 23);
+            txtTemp.Size = new System.Drawing.Size(265, 91);
             txtTemp.TabIndex = 25;
             // 
             // Form1
@@ -208,10 +198,9 @@
             Controls.Add(lblDoorStatus);
             Controls.Add(txtDoorClosed);
             Controls.Add(txtDoorOpen);
-            Controls.Add(btnClearAlarm);
+            Controls.Add(btnClearAllAlarms);
             Controls.Add(label3);
             Controls.Add(dgvAlarm);
-            Controls.Add(btnAcknowledge);
             Controls.Add(btnGreenDiode);
             Controls.Add(lblServerIP);
             Controls.Add(txtIP);
@@ -230,10 +219,9 @@
         private System.Windows.Forms.Label lblDoorStatus;
         private System.Windows.Forms.TextBox txtDoorClosed;
         private System.Windows.Forms.TextBox txtDoorOpen;
-        private System.Windows.Forms.Button btnClearAlarm;
+        private System.Windows.Forms.Button btnClearAllAlarms;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgvAlarm;
-        private System.Windows.Forms.Button btnAcknowledge;
         private System.Windows.Forms.TextBox txtCurrentTemperature;
         private System.Windows.Forms.Label lblGreenDiode;
         private System.Windows.Forms.Label lblCurrentTemperature;
