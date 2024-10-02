@@ -172,8 +172,15 @@ namespace RaspberryServertest
                 //Console.WriteLine("Understood, toggle diode");
                 _serialPort.Write("O");
                 temperatureAlarmActive = false;
-                Console.WriteLine("Alarms Cleared");
-                response = Encoding.ASCII.GetBytes("yo mama");
+                //Console.WriteLine("Alarms Cleared");
+                response = Encoding.ASCII.GetBytes("no alarms");
+            }
+            else if (data == "ALARM ON<EOF>")
+            {
+                //Console.WriteLine("Understood, toggle diode");
+                _serialPort.Write("A");
+                //Console.WriteLine("Alarm light on");
+                response = Encoding.ASCII.GetBytes("in fact, there are alarms");
             }
             else
             {
@@ -306,7 +313,7 @@ namespace RaspberryServertest
                 //}
                 conFood.Close();
                 Console.WriteLine("Alarm posted");
-                _serialPort.Write("A");
+                //_serialPort.Write("A");
             }
             catch (Exception ex)
             {
