@@ -20,12 +20,13 @@ namespace RaspberryServertest
 
         static bool buttonAlarmActive = false;
         static bool temperatureAlarmActive = false;
-        static double temperatureLimit = 20;
+        static double temperatureLimit = 23;
         public static int Main(string[] args)
         {
             Console.WriteLine("Server: Hello!");
             Thread serverThread = new Thread(() => StartServer());
             Thread readThread = new Thread(() => Read());
+            Thread checkAlarmsThread = new Thread(() => CheckAlarmsFromSQL());
 
             Console.Write("Use default settings for Arduino? Y/N:");
             string defaultSetting = Console.ReadLine();
@@ -52,6 +53,7 @@ namespace RaspberryServertest
             _serialPort.WriteTimeout = 1500;
             _serialPort.Open();
             readThread.Start();
+            //checkAlarmsThread.Start();
             //SerialCommand(); //manual testing with arduino
             StartServer();
 
@@ -165,6 +167,14 @@ namespace RaspberryServertest
                 _serialPort.Write("L");
                 response = Encoding.ASCII.GetBytes("diode toggled");
             }
+            else if (data == "ALARM OFF<EOF>")
+            {
+                //Console.WriteLine("Understood, toggle diode");
+                _serialPort.Write("O");
+                temperatureAlarmActive = false;
+                Console.WriteLine("Alarms Cleared");
+                response = Encoding.ASCII.GetBytes("yo mama");
+            }
             else
             {
                 Console.WriteLine("Command not understood");
@@ -184,7 +194,7 @@ namespace RaspberryServertest
                 try
                 {
                     string message = _serialPort.ReadLine();
-                    Console.WriteLine(message);
+                    //Console.WriteLine(message);
                     string[] serialData = message.Split(';');
                     if (serialData.Length > 1)
                     {
@@ -269,18 +279,15 @@ namespace RaspberryServertest
 
         static void PostAlarmToSQL(string alarmType)
         {
-            //string sqlQuery = $@"
-            //    UPDATE BUTTON
-            //    SET ButtonStatus = {status}
-            //    WHERE ButtonID = {buttonId}";
+            
             string sqlQuery = $@"INSERT INTO ALARM VALUES ('NA','NA','2069-09-30','Yo mama')";
             if (alarmType == "TMP")
             {
-                sqlQuery = $@"INSERT INTO ALARM VALUES (2,'HOT','2024-09-30','Temperature above limit')";
+                sqlQuery = $@"INSERT INTO ALARM (AlarmCat, AlarmCode, AlarmMessage) VALUES (2,'TH','Temperature above limit')";
             }
             else if (alarmType == "BUTTON")
             {
-                sqlQuery = $@"INSERT INTO ALARM VALUES (5,'OPEN','2024-09-30','Door held open too long')";
+                sqlQuery = $@"INSERT INTO ALARM (AlarmCat, AlarmCode, AlarmMessage) VALUES (5,'DS','DOOR STUCK!!!')";
             }
             
             //CRUD operasjon Insert, brukes av btnInsert og btnGenerateWaterLevels
@@ -290,18 +297,57 @@ namespace RaspberryServertest
                 SqlConnection conFood = new SqlConnection(conn);
                 SqlCommand sql = new SqlCommand(sqlQuery, conFood);
                 conFood.Open();
-                SqlDataReader dataReader = sql.ExecuteReader();
-                string retrievedTableValue;
-                while (dataReader.Read() == true)
-                {
-                    //retrievedTableValue = dataReader[0].ToString();
-                }
+                sql.ExecuteNonQuery();
+                //SqlDataReader dataReader = sql.ExecuteReader();
+                //string retrievedTableValue;
+                //while (dataReader.Read() == true)
+                //{
+                //    //retrievedTableValue = dataReader[0].ToString();
+                //}
                 conFood.Close();
                 Console.WriteLine("Alarm posted");
+                _serialPort.Write("A");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void CheckAlarmsFromSQL()
+        {
+            while (true)
+            {
+                try
+                {
+                    string sqlQuery = $@"SELECT * FROM ALARM";
+                    string conn = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
+                    SqlConnection conFood = new SqlConnection(conn);
+                    SqlCommand sql = new SqlCommand(sqlQuery, conFood);
+                    conFood.Open();
+                    SqlDataReader dataReader = sql.ExecuteReader();
+                    string retrievedTableValue = "";
+                    while (dataReader.Read() == true)
+                    {
+                        retrievedTableValue = dataReader[0].ToString();
+                    }
+                    conFood.Close();
+                    if (retrievedTableValue.Length > 0 )
+                    {
+                        Console.WriteLine("No alarms");
+                        temperatureAlarmActive = false;
+                        _serialPort.Write("O");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Alarms are pending");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                Thread.Sleep(3000);
             }
         }
     }
