@@ -189,7 +189,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(721, 417);
+            ClientSize = new System.Drawing.Size(739, 411);
             Controls.Add(txtTemp);
             Controls.Add(btnTemp);
             Controls.Add(lblCurrentTemperature);

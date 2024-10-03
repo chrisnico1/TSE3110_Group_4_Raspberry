@@ -15,79 +15,91 @@ using System.Data.SqlClient;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace RaspberryServerClientForm
 {
     /// <summary>
-    /// Timestamp from the database is using UTC time.
+    /// Timestamp from the database is using UTC time, meaning they are -2 hours wrong from local time in the summer.
     /// </summary>
 
 
     public partial class Form1 : Form
     {
-        //Global variables.
+        // Global variables //
+
+        //Connection string to database.
         string conn = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
 
-        //Constructor
+        // Constructor //
         public Form1()
         {
             InitializeComponent();
 
-            // Event subscription to make the timer start when new IP is entered.
+            //Event subscription to make the timer start when a new IP is entered in txtIP.
             txtIP.KeyPress += new KeyPressEventHandler(txtIP_KeyPress);
             tmrSampleTime.Tick += new EventHandler(tmrSampleTime_Tick);
-
-            // ULTRA MIDLERTIDIG KODE
-            txtTemp.Clear();
         }
 
 
 
-        ///Functions from GUI///
+        /// Functions from GUI ///
 
 
+
+        //Enables the timer when the 'ENTER' key is pressed inside txtIP. [COMPLETE]
+        private void txtIP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                tmrSampleTime.Start();
+                e.Handled = true; //Prevents the 'ding' sound
+            }
+        }
 
         //Clear all alarms in alarm table. [COMPLETE]
         private void btnClearAllAlarms_Click(object sender, EventArgs e)
         {
-            // Creating the query
+            //Creating the query
             string sqlQuery = "DELETE FROM ALARM;";
 
             using (SqlConnection connection = new SqlConnection(conn))
             {
                 SqlCommand command = new SqlCommand(sqlQuery, connection);
 
-                // Open the connection
+                //Open the connection.
                 connection.Open();
 
-                // Execute the query
+                //Execute the query.
                 command.ExecuteNonQuery();
 
-                // Close the connection
+                //Close the connection.
                 connection.Close();
             }
         }
 
-        //Toggle light on green diode. [MAYBE COMPLETE]
+        //Toggle light on green diode and show on GUI. [COMPLETE]
         private void btnGreenDiode_Click(object sender, EventArgs e)
         {
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("TOGGLE DIODE<EOF>");
             string response = StartClient(request);
-            //Thread.Sleep(500);
             string greenStatus = GetDiodeStatus();
             txtTemp.Text = greenStatus;
         }
 
-        // Method to turn off the red alarm diode. [COMPLETE]
+        //Method to turn off the red alarm diode. [COMPLETE]
         public void TurnOffRedDiode()
         {
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("ALARM OFF<EOF>");
             string response = StartClient(request);
         }
 
-        // Method to turn on the red alarm diode. [COMPLETE]
+        //Method to turn on the red alarm diode. [COMPLETE]
         public void TurnOnRedDiode()
         {
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("ALARM ON<EOF>");
             string response = StartClient(request);
         }
@@ -95,28 +107,33 @@ namespace RaspberryServerClientForm
         // Method to check if there are any values in the ALARM table. [COMPLETE]
         private void CheckIfAnyValueInTable()
         {
+            //Stores the last found data from the first column of the table inside a variable.
             try
             {
+                //Creating the query.
                 string sqlQuery = $@"SELECT * FROM ALARM";
                 SqlConnection connection = new SqlConnection(conn);
                 SqlCommand sql = new SqlCommand(sqlQuery, connection);
 
-                // Open the connection
+                //Open the connection.
                 connection.Open();
 
-                // Executing the reader function
+                //Executing the reader function.
                 SqlDataReader dataReader = sql.ExecuteReader();
 
+                //Creating a variable to store the found data.
                 string retrievedTableValue = "";
+
+                //Cheching the first column for all rows.
                 while (dataReader.Read() == true)
                 {
                     retrievedTableValue = dataReader[0].ToString();
                 }
 
-                // Close the connection
+                //Close the connection.
                 connection.Close();
 
-
+                //Toggles the red alarm diode if there are any or no alarms.
                 if (retrievedTableValue.Length > 0)
                 {
                     TurnOnRedDiode();
@@ -133,24 +150,25 @@ namespace RaspberryServerClientForm
         }
 
 
-        ///Self-made methods///
+
+        /// Methods ///
 
 
 
-        //View a query in a data grid view.
-        public void ViewQueryResultInDataGridView(string conString, string sqlQuery, DataGridView dgvTemporary)
+        //Metthod to view a query in a data grid view. [COMPLETE]
+        public void ViewQueryResultInDataGridView(string sqlQuery, DataGridView dgvTemporary)
         {
             try
             {
-                SqlConnection con = new SqlConnection(conString);
+                SqlConnection connection = new SqlConnection(conn);
                 SqlDataAdapter sda;
                 DataTable dt;
-                con.Open();
-                sda = new SqlDataAdapter(sqlQuery, con);
+                connection.Open();
+                sda = new SqlDataAdapter(sqlQuery, connection);
                 dt = new DataTable();
                 sda.Fill(dt);
                 dgvTemporary.DataSource = dt;
-                con.Close();
+                connection.Close();
             }
             catch (Exception error)
             {
@@ -158,54 +176,52 @@ namespace RaspberryServerClientForm
             }
         }
 
-        //Method for some Quant stuff.
+        //Method for handling data request over socket communication. [COMPLETE]
         public string StartClient(byte[] request)
         {
+            //Default server message is "error".
             string serverMsg = "error";
             byte[] bytes = new byte[1024];
             try
             {
-                // Connect to a Remote server
+                //Connect to a remote server.
                 string serverIP = txtIP.Text;
                 IPAddress ipAddress = IPAddress.Parse(serverIP);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11800);
 
-                // Create a TCP/IP socket.
+                //Create a TCP/IP socket.
                 Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                // Connect the socket to the remote endpoint. Catch any errors.
+                //Connect the socket to the remote endpoint and catch any errors.
                 try
                 {
-                    // Connect to Remote EndPoint
+                    //Connect to remote endpoint.
                     sender.Connect(remoteEP);
 
-                    // Send the data through the socket.
+                    //Send the data through the socket.
                     int bytesSent = sender.Send(request);
 
-                    // Receive the response from the remote device.
+                    //Receive the response from the remote device.
                     int bytesRec = sender.Receive(bytes);
                     serverMsg = Encoding.ASCII.GetString(bytes, 0, bytesRec);
 
-                    // MIDLERTIDIG KODE:
+                    // MIDLERTIDIG KODE:-----------------------------------------------------------------------------------------
                     txtTemp.AppendText(serverMsg + "\r\n");
 
-                    // Release the socket.
+                    //Release the socket.
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
                 }
                 catch (ArgumentNullException ane)
                 {
-                    //Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
                     MessageBox.Show("ArgumentNullException : {0}", ane.ToString());
                 }
                 catch (SocketException se)
                 {
-                    //Console.WriteLine("SocketException : {0}", se.ToString());
                     MessageBox.Show("SocketException : {0}", se.ToString());
                 }
                 catch (Exception e)
                 {
-                    //Console.WriteLine("Unexpected exception : {0}", e.ToString());
                     MessageBox.Show("Unexpected exception : {0}", e.ToString());
                 }
             }
@@ -216,9 +232,12 @@ namespace RaspberryServerClientForm
             return serverMsg;
         }
 
-        //Get diode status from RaspberryPI using socket communication.
+        //Get green diode status from RaspberryPI. [COMPLETE]
         public string GetDiodeStatus()
         {
+            //Checks whether or not the raspberrypi has activated its output to toggle the diode.
+            
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET LIGHT<EOF>");
             string response = StartClient(request);
             if (Convert.ToInt32(response) == 0)
@@ -232,9 +251,12 @@ namespace RaspberryServerClientForm
             return response;
         }
 
-        //Get door status from RaspberryPI using socket communication.
+        //Get door status from RaspberryPI. [COMPLETE]
         public void GetDoorStatus()
         {
+            //Checks the input state on the raspberrypi and changes the door animation on the GUI.
+
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET BUTTON<EOF>");
             string response = StartClient(request);
             if (Convert.ToInt32(response) == 0)
@@ -249,45 +271,49 @@ namespace RaspberryServerClientForm
             }
         }
 
-
-
-
-
-
-        //Show temperature in the textbox. [NOT TESTED]
-        public string ShowCurrentTemperature()
+        //Show temperature in the textbox. [COMPLETE]
+        public void ShowCurrentTemperature(TextBox txtTemporary)
         {
+            //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET TEMPERATURE<EOF>");
-            string response = StartClient(request) + "°C";
-            return response;
+
+            //Gets the last temperature reading.
+            string response = StartClient(request);
+
+            //Show current temperature in a text box with celsius unit.
+            txtTemporary.Text = response + "°C";
         }
 
-        //Timer for doing tasks on a time interval. [NOT TESTED]
+        //Timer for doing tasks on a time interval. [COMPLETE]
         private void tmrSampleTime_Tick(object sender, EventArgs e)
         {
-            string temperature = ShowCurrentTemperature();
-            txtCurrentTemperature.Text = temperature;
+            //Get and show current temperature.
+            ShowCurrentTemperature(txtCurrentTemperature);
+
+            //Get door status.
             GetDoorStatus();
 
-            // Show all alarms in ALARM table inside dgvAlarm. [COMPLETE]
+            //Show all alarms in ALARM table inside dgvAlarm.
             string sqlQuery = @"SELECT* FROM ALARM ORDER BY AlarmId ASC;";
-            ViewQueryResultInDataGridView(conn, sqlQuery, dgvAlarm);
+            ViewQueryResultInDataGridView(sqlQuery, dgvAlarm);
 
-            // Check to turn on/off the red diode. [NOT TESTED]
+            //Check to turn on/off the red diode.
             CheckIfAnyValueInTable();
         }
+        
 
 
-
-
-        //TEMPORARY----------------------------------------------------------------
-        //NOT TESTED
+        //-------------------------------------------------TEMPORARY--------------------------------------------------------------
+        
+        
+        //Makes an alarm in the alarm table and shows it.
         private void btnTemp_Click(object sender, EventArgs e)
         {
+            txtTemp.Clear();
             InsertRow("ALARM", "2", "1", "message");
         }
 
-        // Method to insert four values into a table, where the third value is DateTime (DateTime.Now from C#)
+        //Method to insert four values into a table, where the third value is DateTime (DateTime.Now from C#)
         public void InsertRow(string tableName, object value1, object value2, object value3)
         {
             // SQL query with parameters
@@ -311,16 +337,5 @@ namespace RaspberryServerClientForm
                 command.ExecuteNonQuery();
             }
         }
-
-        // Enables the timer when the 'ENTER' key is pressed inside the txtIP. [COMPLETE]
-        private void txtIP_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                tmrSampleTime.Start();
-                e.Handled = true; // Prevents the 'ding' sound
-            }
-        }
-
     }
 }
