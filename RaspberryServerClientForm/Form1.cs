@@ -236,7 +236,7 @@ namespace RaspberryServerClientForm
         public string GetDiodeStatus()
         {
             //Checks whether or not the raspberrypi has activated its output to toggle the diode.
-            
+
             //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET LIGHT<EOF>");
             string response = StartClient(request);
@@ -300,12 +300,12 @@ namespace RaspberryServerClientForm
             //Check to turn on/off the red diode.
             CheckIfAnyValueInTable();
         }
-        
+
 
 
         //-------------------------------------------------TEMPORARY--------------------------------------------------------------
-        
-        
+
+
         //Makes an alarm in the alarm table and shows it.
         private void btnTemp_Click(object sender, EventArgs e)
         {
@@ -336,6 +336,28 @@ namespace RaspberryServerClientForm
                 // Execute the query
                 command.ExecuteNonQuery();
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClearAllAlarms_MouseHover(object sender, EventArgs e)
+        {
+            btnClearAllAlarms.BackColor = Color.Orange;
+            btnClearAllAlarms.ForeColor = Color.Black;
+        }
+
+        private void btnClearAllAlarms_MouseLeave(object sender, EventArgs e)
+        {
+            btnClearAllAlarms.BackColor = Color.FromArgb(39, 39, 58);
+            btnClearAllAlarms.ForeColor = Color.White;
         }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RaspberryServerClientForm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7a567cdcdd760e79743a31eccbb336d8a2fd601")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8cb36f304936ca1ab1c7fca1745aa52ecccbc21")]
 [assembly: System.Reflection.AssemblyProductAttribute("RaspberryServerClientForm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RaspberryServerClientForm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -38,3 +38,4 @@ C:\TSE3110_Group_4_Raspberry\RaspberryServerClientForm\obj\Debug\netcoreapp3.1\R
 C:\TSE3110_Group_4_Raspberry\RaspberryServerClientForm\obj\Debug\netcoreapp3.1\RaspberryServerClientForm.pdb
 C:\TSE3110_Group_4_Raspberry\RaspberryServerClientForm\obj\Debug\netcoreapp3.1\RaspberryServerClientForm.genruntimeconfig.cache
 C:\TSE3110_Group_4_Raspberry\RaspberryServerClientForm\bin\Debug\netcoreapp3.1\RaspberryServerClientForm.dll.config
+C:\TSE3110_Group_4_Raspberry\RaspberryServerClientForm\obj\Debug\netcoreapp3.1\RaspberryServerClientForm.Properties.Resources.resources
