@@ -20,6 +20,7 @@ namespace RaspberryServertest
 
         static bool buttonAlarmActive = false;
         static bool temperatureAlarmActive = false;
+        static bool temperatureAlarmAcknowledged = false;
         static double temperatureLimit = 23;
         public static int Main(string[] args)
         {
@@ -53,8 +54,7 @@ namespace RaspberryServertest
             _serialPort.WriteTimeout = 1500;
             _serialPort.Open();
             readThread.Start();
-            //checkAlarmsThread.Start();
-            //SerialCommand(); //manual testing with arduino
+            //checkAlarmsThread.Start(); //not in use, functionality moved to Forms program
             StartServer();
 
             _serialPort.Close();
@@ -90,7 +90,7 @@ namespace RaspberryServertest
                     Console.WriteLine("IP rejected, written wrong");
                 }
             }
-            else { Console.WriteLine("You dyslexic fuck...."); }
+            else { Console.WriteLine("Command not recognized"); }
 
             try
             {
@@ -143,33 +143,42 @@ namespace RaspberryServertest
             byte[] response = null;
             if (data == "GET BUTTON<EOF>")
             {
-                //Console.WriteLine("Understood, get button status");
                 response = Encoding.ASCII.GetBytes(buttonStatus);
             }
             else if (data == "GET TEMPERATURE<EOF>")
             {
-                //Console.WriteLine("Understood, get temperature status");
                 response = Encoding.ASCII.GetBytes(temperature);
             }
             else if (data == "GET LIGHT<EOF>")
             {
-                //Console.WriteLine("Understood, get temperature status");
                 response = Encoding.ASCII.GetBytes(lightStatus);
             }
             else if (data == "GET ALARMLIGHT<EOF>")
             {
-                //Console.WriteLine("Understood, get temperature status");
                 response = Encoding.ASCII.GetBytes(alarmLightStatus);
             }
             else if (data == "TOGGLE DIODE<EOF>")
             {
-                //Console.WriteLine("Understood, toggle diode");
                 _serialPort.Write("L");
                 response = Encoding.ASCII.GetBytes("diode toggled");
             }
+            else if (data == "INC TEMPERATURELIMIT<EOF>")
+            {
+                temperatureLimit += 1;
+                response = Encoding.ASCII.GetBytes(temperatureLimit.ToString());
+            }
+            else if (data == "DEC TEMPERATURELIMIT<EOF>")
+            {
+                temperatureLimit -= 1;
+                response = Encoding.ASCII.GetBytes(temperatureLimit.ToString());
+            }
+            else if (data == "ACK TEMPERATUREALARM<EOF>")
+            {
+                temperatureAlarmAcknowledged = true;
+                response = Encoding.ASCII.GetBytes("Acknowledged temperature above limit");
+            }
             else if (data == "ALARM OFF<EOF>")
             {
-                //Console.WriteLine("Understood, toggle diode");
                 _serialPort.Write("O");
                 temperatureAlarmActive = false;
                 //Console.WriteLine("Alarms Cleared");
@@ -177,7 +186,6 @@ namespace RaspberryServertest
             }
             else if (data == "ALARM ON<EOF>")
             {
-                //Console.WriteLine("Understood, toggle diode");
                 _serialPort.Write("A");
                 //Console.WriteLine("Alarm light on");
                 response = Encoding.ASCII.GetBytes("in fact, there are alarms");
@@ -231,9 +239,14 @@ namespace RaspberryServertest
                     //Alarm if temperature too high
                     if ((Convert.ToDouble(temperature) > temperatureLimit) && !temperatureAlarmActive)
                     {
-                        Console.WriteLine("TEMPERATURE ABOVE 20");
+                        Console.WriteLine("TEMPERATURE ABOVE LIMIT");
                         PostAlarmToSQL("TMP");
                         temperatureAlarmActive = true;
+                        temperatureAlarmAcknowledged = false;
+                    }
+                    else if ((Convert.ToDouble(temperature) < temperatureLimit) && temperatureAlarmAcknowledged)
+                    {
+                        temperatureAlarmActive = false;
                     }
 
                     //Clear serial buffer when too many lines accumulated (when raspberry reads slower than arduino)
@@ -262,32 +275,11 @@ namespace RaspberryServertest
             //Console.WriteLine("Serial buffer cleared");
         }
 
-        public static void SerialCommand()
-        {
-            while (true)
-            {
-                Console.Write("Serial Command (T/B/D):");
-                string command = Console.ReadLine();
-                if (command == "T")
-                {
-                    Console.WriteLine("Temperature: " + temperature);
-                }
-                else if (command == "B")
-                {
-                    Console.WriteLine("Button status: " + buttonStatus);
-                }
-                else if (command == "D")
-                {
-                    Console.WriteLine("Diode toggled");
-                    _serialPort.Write("1");
-                }
-            }
-        }
 
         static void PostAlarmToSQL(string alarmType)
         {
             
-            string sqlQuery = $@"INSERT INTO ALARM VALUES ('NA','NA','2069-09-30','Yo mama')";
+            string sqlQuery = $@"INSERT INTO ALARM VALUES ('NA','NA','2069-09-30','Error in PostAlarmToSQL')";
             if (alarmType == "TMP")
             {
                 sqlQuery = $@"INSERT INTO ALARM (AlarmCat, AlarmCode, AlarmMessage) VALUES (2,'TH','Temperature above limit')";
@@ -297,7 +289,6 @@ namespace RaspberryServertest
                 sqlQuery = $@"INSERT INTO ALARM (AlarmCat, AlarmCode, AlarmMessage) VALUES (5,'DS','DOOR STUCK!!!')";
             }
             
-            //CRUD operasjon Insert, brukes av btnInsert og btnGenerateWaterLevels
             try
             {
                 string conn = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
@@ -305,15 +296,8 @@ namespace RaspberryServertest
                 SqlCommand sql = new SqlCommand(sqlQuery, conFood);
                 conFood.Open();
                 sql.ExecuteNonQuery();
-                //SqlDataReader dataReader = sql.ExecuteReader();
-                //string retrievedTableValue;
-                //while (dataReader.Read() == true)
-                //{
-                //    //retrievedTableValue = dataReader[0].ToString();
-                //}
                 conFood.Close();
                 Console.WriteLine("Alarm posted");
-                //_serialPort.Write("A");
             }
             catch (Exception ex)
             {
@@ -321,6 +305,7 @@ namespace RaspberryServertest
             }
         }
 
+        //NOT IN USE
         static void CheckAlarmsFromSQL()
         {
             while (true)

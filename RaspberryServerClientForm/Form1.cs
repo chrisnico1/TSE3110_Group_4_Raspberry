@@ -16,6 +16,7 @@ using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections;
 using TextBox = System.Windows.Forms.TextBox;
+using System.IO;
 
 namespace RaspberryServerClientForm
 {
@@ -27,6 +28,8 @@ namespace RaspberryServerClientForm
     public partial class Form1 : Form
     {
         // Global variables //
+        CsvWriter CsvWriter;
+        double temperatureAlarmLimit;
 
         //Connection string to database.
         string conn = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
@@ -36,9 +39,13 @@ namespace RaspberryServerClientForm
         {
             InitializeComponent();
 
+            temperatureAlarmLimit = 9000;
+            CsvWriter = new CsvWriter();
+
             //Event subscription to make the timer start when a new IP is entered in txtIP.
-            txtIP.KeyPress += new KeyPressEventHandler(txtIP_KeyPress);
-            tmrSampleTime.Tick += new EventHandler(tmrSampleTime_Tick);
+            //txtIP.KeyPress += new KeyPressEventHandler(txtIP_KeyPress);
+            //tmrSQL.Tick += new EventHandler(tmrSampleTime_Tick);
+            //tmrSocket.Tick += new EventHandler(tmrSocket_Tick);
         }
 
 
@@ -52,7 +59,7 @@ namespace RaspberryServerClientForm
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                tmrSampleTime.Start();
+                //tmrSampleTime.Start();
                 e.Handled = true; //Prevents the 'ding' sound
             }
         }
@@ -76,6 +83,8 @@ namespace RaspberryServerClientForm
                 //Close the connection.
                 connection.Close();
             }
+            TemperatureAlarmAcknowledge();
+            btnTemperature.BackColor = Color.White;
         }
 
         //Toggle light on green diode and show on GUI. [COMPLETE]
@@ -114,20 +123,24 @@ namespace RaspberryServerClientForm
                 string sqlQuery = $@"SELECT * FROM ALARM";
                 SqlConnection connection = new SqlConnection(conn);
                 SqlCommand sql = new SqlCommand(sqlQuery, connection);
-
+                string retrievedTableValue = "";
                 //Open the connection.
                 connection.Open();
-
-                //Executing the reader function.
-                SqlDataReader dataReader = sql.ExecuteReader();
-
-                //Creating a variable to store the found data.
-                string retrievedTableValue = "";
-
-                //Cheching the first column for all rows.
-                while (dataReader.Read() == true)
+                using (SqlDataReader dataReader = sql.ExecuteReader())
                 {
-                    retrievedTableValue = dataReader[0].ToString();
+                    string alarmCode = "";
+
+                    while (dataReader.Read())
+                    {
+                        retrievedTableValue = dataReader[0].ToString();
+                        alarmCode = dataReader[2].ToString().Trim();
+                        //MessageBox.Show(alarmCode);
+
+                        if (alarmCode == "TH")
+                        {
+                            btnTemperature.BackColor = Color.Red;
+                        }
+                    }
                 }
 
                 //Close the connection.
@@ -240,11 +253,11 @@ namespace RaspberryServerClientForm
             //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET LIGHT<EOF>");
             string response = StartClient(request);
-            if (Convert.ToInt32(response) == 0)
+            if (Convert.ToInt32(response) == 1)
             {
                 btnGreenDiode.BackColor = Color.White;
             }
-            else if (Convert.ToInt32(response) == 1)
+            else if (Convert.ToInt32(response) == 0)
             {
                 btnGreenDiode.BackColor = Color.Green;
             }
@@ -272,7 +285,7 @@ namespace RaspberryServerClientForm
         }
 
         //Show temperature in the textbox. [COMPLETE]
-        public void ShowCurrentTemperature(TextBox txtTemporary)
+        public double ShowCurrentTemperature()
         {
             //Using a byte stream through socket communication on LAN network.
             byte[] request = Encoding.ASCII.GetBytes("GET TEMPERATURE<EOF>");
@@ -280,18 +293,41 @@ namespace RaspberryServerClientForm
             //Gets the last temperature reading.
             string response = StartClient(request);
 
+            return Convert.ToDouble(response);
+
             //Show current temperature in a text box with celsius unit.
+            //txtTemporary.Text = response + "°C";
+        }
+        public void TemperatureLimitIncrease(TextBox txtTemporary)
+        {
+            //Using a byte stream through socket communication on LAN network.
+            byte[] request = Encoding.ASCII.GetBytes("INC TEMPERATURELIMIT<EOF>");
+
+            string response = StartClient(request);
+            temperatureAlarmLimit = Convert.ToDouble(response);
             txtTemporary.Text = response + "°C";
         }
+        public void TemperatureLimitDecrease(TextBox txtTemporary)
+        {
+            //Using a byte stream through socket communication on LAN network.
+            byte[] request = Encoding.ASCII.GetBytes("DEC TEMPERATURELIMIT<EOF>");
 
-        //Timer for doing tasks on a time interval. [COMPLETE]
+            string response = StartClient(request);
+            temperatureAlarmLimit = Convert.ToDouble(response);
+            txtTemporary.Text = response + "°C";
+        }
+        public void TemperatureAlarmAcknowledge()
+        {
+            //Using a byte stream through socket communication on LAN network.
+            byte[] request = Encoding.ASCII.GetBytes("ACK TEMPERATUREALARM<EOF>");
+
+            string response = StartClient(request);
+        }
+
+        //Timer for doing SQL tasks on a time interval. [COMPLETE]
         private void tmrSampleTime_Tick(object sender, EventArgs e)
         {
-            //Get and show current temperature.
-            ShowCurrentTemperature(txtCurrentTemperature);
-
-            //Get door status.
-            GetDoorStatus();
+            progressBar1.Value = 0;
 
             //Show all alarms in ALARM table inside dgvAlarm.
             string sqlQuery = @"SELECT* FROM ALARM ORDER BY AlarmId ASC;";
@@ -301,6 +337,22 @@ namespace RaspberryServerClientForm
             CheckIfAnyValueInTable();
         }
 
+        //Timer for doing Socket tasks on a time interval. [COMPLETE]
+        private void tmrSocket_Tick(object sender, EventArgs e)
+        {
+            //Get and show current temperature.
+            double currentTemperature = ShowCurrentTemperature();
+            txtCurrentTemperature.Text = currentTemperature.ToString() + "°C";
+
+            //Get door status.
+            GetDoorStatus();
+
+            //Log temperature
+            if (cbTemperature.Checked)
+            {
+                CsvWriter.WriteToCsv(txtCurrentTemperature);
+            }
+        }
 
 
         //-------------------------------------------------TEMPORARY--------------------------------------------------------------
@@ -338,16 +390,6 @@ namespace RaspberryServerClientForm
             }
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnClearAllAlarms_MouseHover(object sender, EventArgs e)
         {
             btnClearAllAlarms.BackColor = Color.Orange;
@@ -359,5 +401,95 @@ namespace RaspberryServerClientForm
             btnClearAllAlarms.BackColor = Color.FromArgb(39, 39, 58);
             btnClearAllAlarms.ForeColor = Color.White;
         }
+
+        private void btnStartSocket_Click(object sender, EventArgs e)
+        {
+            btnStartSocket.Enabled = false;
+            tmrSocket.Enabled = true;
+        }
+
+        private void btnStartSQL_Click_1(object sender, EventArgs e)
+        {
+            btnStartSQL.Enabled = false;
+            tmrSQL.Enabled = true;
+            tmrSQLbar.Enabled = true;
+        }
+
+        private void tmrSQLbar_Tick(object sender, EventArgs e)
+        {
+            progressBar1.Value += 10;
+        }
+
+        private void btnClearCsv_Click(object sender, EventArgs e)
+        {
+            CsvWriter.ClearCsv();
+        }
+
+        private void btnShowCsv_Click(object sender, EventArgs e)
+        {
+            CsvWriter.ShowLog();
+        }
+
+        private void btnTmpINC_Click(object sender, EventArgs e)
+        {
+            TemperatureLimitIncrease(txtTmpLimit);
+        }
+
+        private void btnTmpDEC_Click(object sender, EventArgs e)
+        {
+            TemperatureLimitDecrease(txtTmpLimit);
+        }
+
+    }
+
+    public class CsvWriter
+    {
+        public void WriteToCsv(TextBox txtTemperature)
+        {
+            string filePath = "temperatureLog.csv";
+            string currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string temperature = txtTemperature.Text;
+
+            if (!File.Exists(filePath))
+            {
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.WriteLine("Time,Temperature");
+                }
+            }
+
+            using (StreamWriter sw = new StreamWriter(filePath, true))
+            {
+                sw.WriteLine($"{currentTime},{temperature}");
+            }
+        }
+
+        public void ClearCsv()
+        {
+            string filePath = "temperatureLog.csv";
+            if (File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, string.Empty);
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.WriteLine("Time,Temperature");
+                }
+            }
+
+        }
+        public void ShowLog()
+        {
+            string filePath = "temperatureLog.csv";
+            if (File.Exists(filePath))
+            {
+                string logContent = File.ReadAllText(filePath);
+                MessageBox.Show(logContent, "Log File Contents", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Log file does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
